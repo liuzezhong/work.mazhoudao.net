@@ -1,0 +1,133 @@
+<include file="Index/header" />
+
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <include file="Index/nav" />
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">网盟系统公告列表</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        网盟系统公告列表
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="well">
+                            <form class="form-inline" action="/index.php" method="get">
+                                <input type="hidden" name="m" value="wmbackstage"/>
+                                <input type="hidden" name="c" value="wmnotice"/>
+                                <input type="hidden" name="a" value="index"/>
+                                <div class="form-group">
+                                    <label >公告标题：</label>
+                                    <input type="text" class="form-control" name="notice_title" placeholder="" value="{$input_notice_title}">
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>发布时间：</label>
+                                    <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <input name="notice_time" class="form-control" type="text" value="{$input_notice_name}">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input2" value="" />
+                                    <!-- <input type="text" name="q_date" class="form-control" value="{$input_date}">-->
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search fa-fw"></i>&nbsp;&nbsp;查询记录</button>
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <a href="/index.php?m=Wmbackstage&c=wmnotice" class="btn btn-default"><i class="fa fa-refresh fa-fw"></i>&nbsp;&nbsp;刷新列表</a>
+                                </div>
+                            </form>
+                        </div>
+                        <table width="100%" class="table table-striped table-bordered table-hover" >
+                            <thead>
+                            <tr>
+                                <th class="wm_table_center">公告ID</th>
+                                <th class="wm_table_center">发布时间</th>
+                                <th class="wm_table_center">公告标题</th>
+                                <th class="wm_table_center">公告内容</th>
+                                <th class="wm_table_center">操作</th>
+
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="notices" id="notice">
+                                <tr class="odd gradeX">
+                                    <td class="wm_table_center" style="width: 80px;">{$notice.notice_id}</td>
+                                    <td class="wm_table_center" style="width: 180px;">{$notice.notice_time|date='Y-m-d H:i:s',###}</td>
+                                    <td class="wm_table_center" style="width: 250px;">{$notice.notice_title}</td>
+                                    <td class="wm_table_center">{$notice.notice_content}</td>
+                                    <td class="wm_table_center" style="width: 80px;">
+                                        <span id="updata_list" attr-id="{$notice.notice_id}"><i class="fa fa-edit fa-fw"></i></span>&nbsp;
+                                        <span id="delete_list" attr-id="{$notice.notice_id}" attr-message="删除 {$notice.notice_title}"><i class="fa fa-trash-o fa-fw"></i></span>
+                                    </td>
+
+
+
+                                </tr>
+
+                            </volist>
+
+
+                            </tbody>
+                        </table>
+                        <!-- /.table-responsive -->
+                        <div class="pagination pagination-centered wm_table_page">{$pageRes}</div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+
+
+
+    <include file="Index/footer" />
+
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script type="text/javascript">
+        $('.form_date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+        });
+
+        var SCOPE = {
+            'edit_url' : '/index.php?m=wmbackstage&c=wmnotice&a=edit_bulletin',
+            'delete_list_url' : '/index.php?m=wmbackstage&c=wmnotice&a=delete_bulletin',
+
+        };
+    </script>
+
+</body>
+
+</html>

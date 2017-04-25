@@ -1,0 +1,495 @@
+<include file="Index/header" />
+
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <include file="Index/nav" />
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">网盟用户提现记录管理</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        网盟用户提现记录管理
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="well">
+                            <form class="form-inline" action="/index.php" method="get">
+                                <input type="hidden" name="m" value="wmbackstage"/>
+                                <input type="hidden" name="c" value="wmwithdrawals"/>
+                                <input type="hidden" name="a" value="index"/>
+                                <div class="btn-group">
+                                    <div class="form-group">
+                                        <div class="dropdown">
+                                            <if condition="$status eq is_null()">
+                                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    提现状态
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <else />
+                                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    {$status_zh}
+                                                    <span class="caret"></span>
+                                                </button></if>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                                <li><a href="/index.php?m=Wmbackstage&c=wmwithdrawals">全部显示</a></li>
+                                                <li><a href="/index.php?m=Wmbackstage&c=wmwithdrawals&status=1">已提现</a></li>
+                                                <li><a href="/index.php?m=Wmbackstage&c=wmwithdrawals&status=2">正在提现</a></li>
+                                                <li><a href="/index.php?m=Wmbackstage&c=wmwithdrawals&status=-1">提现失败</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>用户ID:</label>
+                                    <input type="text" class="form-control" name="userid" placeholder="" value="{$input_userid}" size="8">
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>用户名称：</label>
+                                    <input type="text" name="username" class="form-control" value="{$input_username}" size="8">
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>提现方式：</label>
+                                    <select class="form-control" name="tixian_type">
+                                        <if condition="$tixian_type eq 0"><option value="0" selected>请选择</option><else/><option value="0">请选择</option></if>
+                                        <if condition="$tixian_type eq 2"><option value="2" selected>支付宝</option><else/><option value="2">支付宝</option></if>
+                                        <if condition="$tixian_type eq 1"><option value="1" selected>对公账户</option><else/><option value="1">对公账户</option></if>
+                                    </select>
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>开始日期：</label>
+                                    <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <input name="begin_date" class="form-control" value="{$input_begin_date}" type="text" size="8" >
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input2" value="" />
+                                    <!-- <input type="text" name="q_date" class="form-control" value="{$input_date}">-->
+                                </div>
+                                <!-- <div class="form-group">
+                                     <label >日期开始</label>
+                                     <input type="text" class="form-control" name="begin_date" placeholder="" value="{$input_begin_date}" style="width: 200px;">
+                                 </div>-->
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>截止日期：</label>
+                                    <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input22" data-link-format="yyyy-mm-dd">
+                                        <input name="end_date" class="form-control" value="{$input_end_date}" type="text" size="8" >
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input22" value="" />
+                                    <!-- <input type="text" name="q_date" class="form-control" value="{$input_date}">-->
+                                </div>
+                                <!-- <div class="form-group">
+                                     <label >日期结束</label>
+                                     <input type="text" class="form-control" name="end_date" placeholder="" value="{$input_end_date}" style="width: 200px;">
+                                 </div>-->
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search fa-fw"></i>&nbsp;&nbsp;查询记录</button>
+                                </div>
+
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <a href="/index.php?m=wmbackstage&c=wmwithdrawals&a=wmexp_withdrawals&userid={$input_userid}&username={$input_username}&begin_date={$input_begin_date}&end_date={$input_end_date}&status={$status}"  class="btn btn-default"><i class="fa fa-share-square-o fa-fw"></i>&nbsp;&nbsp;导出记录</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <table width="100%" class="table table-striped table-bordered table-hover useradmin_table" >
+                            <thead>
+                            <tr>
+                                <th class="wm_table_center">时间</th>
+                                <th class="wm_table_center">用户ID</th>
+                                <th class="wm_table_center">用户名称</th>
+
+                                <th class="wm_table_center">提现金额(元)</th>
+                                <th class="wm_table_center">提现方式</th>
+
+                                <th class="wm_table_center">支付宝</th>
+                                <th class="wm_table_center">对公账户</th>
+                                <th class="wm_table_center">增值税发票</th>
+                                <th class="wm_table_center">发票审核</th>
+
+
+                                <th class="wm_table_center">提现状态</th>
+                                <th class="wm_table_center">汇款记录</th>
+                                <th class="wm_table_center">提现详情</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="withdrawals" id="drawals">
+                                <tr class="odd gradeX">
+                                    <td class="wm_table_center">{$drawals.pay_time|date='Y-m-d',###}</td>
+                                    <td class="wm_table_center">{$drawals.user_id}</td>
+                                    <td class="wm_table_center">{$drawals.username}</td>
+
+                                    <td class="wm_table_center">{$drawals.pay_money}</td>
+                                    <td class="wm_table_center">
+                                        <if condition="$drawals.tixian_type eq 0">
+                                            <span class="label label-info">支付宝</span>
+                                        <else /><span class="label label-warning">对公账户</span>
+                                        </if>
+                                    <td class="wm_table_center">
+                                    <if condition="$drawals.pay_account neq is_null()">
+                                        <button type="button" class="btn btn-default btn-xs" id="zhifubao-xinxi" attr-column="{$drawals.column_name}" attr-alipay="{$drawals.pay_account}">查看</button>
+                                        <else />
+                                        <a type="button" class="btn btn-default btn-xs disabled">未绑定</a>
+                                    </if>
+                                    </td>
+                                    <td class="wm_table_center">
+                                        <if condition="$drawals.bank_account neq is_null()">
+                                            <button type="button" class="btn btn-default btn-xs" id="duigong-xinxi" attr-company="{$drawals.company_name}" attr-bank="{$drawals.bank}" attr-account="{$drawals.bank_account}">查看</button>
+                                            <else />
+                                            <a type="button" class="btn btn-default btn-xs disabled">未绑定</a>
+
+
+                                        </if>
+                                        </td>
+
+                                    <td class="wm_table_center">
+                                        <if condition="$drawals.fapiao neq is_null()">
+                                            <a class="btn btn-default btn-xs" type="button" target="_blank" href="{$drawals.fapiao}">查看发票</a>
+                                            <else />
+                                            <a class="btn btn-default btn-xs disabled" type="button" target="_blank" href="{$drawals.fapiao}">无需发票</a>
+
+                                        </if></td>
+                                    <td class="wm_table_center">
+                                        <if condition="$drawals.fapiao neq is_null()">
+                                            <if condition="$drawals.fapiao_status eq 0">
+                                                <button class="btn btn-warning btn-xs" id="change-fapiao" attr-id="{$drawals.serial_number}">未审核</button>
+                                                <elseif condition="$drawals.fapiao_status eq 1" />
+                                                <button class="btn btn-success btn-xs" id="change-fapiao" attr-id="{$drawals.serial_number}">审核通过</button>
+                                                <elseif condition="$drawals.fapiao_status eq -1" />
+                                                <button class="btn btn-danger btn-xs" id="change-fapiao" attr-id="{$drawals.serial_number}">不通过</button>
+                                            </if>
+                                            <else />
+                                            <a class="btn btn-default btn-xs disabled" attr-id="{$drawals.serial_number}">无发票</a>
+
+
+
+                                        </if>
+
+                                    </td>
+                                    <td class="wm_table_center">
+                                        <if condition="$drawals.fapiao neq is_null()">
+                                            <if condition="$drawals.pay_status eq 0">
+                                                <button class="btn btn-warning btn-xs" id="tixian-status" attr-id="{$drawals.serial_number}" attr-duigong="{$drawals.fapiao_status}">{$drawals.status}</button>
+                                                <elseif condition="$drawals.pay_status eq 1"/>
+                                                <button class="btn btn-success btn-xs" id="tixian-status" attr-id="{$drawals.serial_number}" attr-duigong="{$drawals.fapiao_status}">{$drawals.status}</button>
+                                                <elseif condition="$drawals.pay_status eq -1"/>
+                                                <button class="btn btn-danger btn-xs" id="tixian-status" attr-id="{$drawals.serial_number}" attr-duigong="{$drawals.fapiao_status}">{$drawals.status}</button>
+                                            </if>
+                                            <elseif condition="$drawals.fapiao eq is_null()" />
+                                            <if condition="$drawals.pay_status eq 0">
+                                                <button class="btn btn-warning btn-xs"  id="tixian-status-z" attr-id="{$drawals.serial_number}">{$drawals.status}</button>
+                                                <elseif condition="$drawals.pay_status eq 1"/>
+                                                <button class="btn btn-success btn-xs" id="tixian-status-z" attr-id="{$drawals.serial_number}">{$drawals.status}</button>
+                                                <elseif condition="$drawals.pay_status eq -1"/>
+                                                <button class="btn btn-danger btn-xs" id="tixian-status-z" attr-id="{$drawals.serial_number}">{$drawals.status}</button>
+                                            </if></if>
+
+                                    </td>
+                                    <td class="wm_table_center">
+                                        <if condition="$drawals.tixian_type eq 1">
+                                            <if condition="$drawals.huidan neq is_null()">
+                                                <a class="btn btn-default btn-xs" type="button" target="_blank" href="{$drawals.huidan}">查看汇款回单</a>
+                                                <else />
+                                                <a class="btn btn-default btn-xs disabled" type="button" target="_blank" href="{$drawals.huidan}">暂无汇款回单</a>
+                                            </if>
+                                            <else />
+                                            <if condition="$drawals.details_number neq is_null()">
+                                                <a class="btn btn-default btn-xs " type="button" id="jiaoyi-danhao" attr-danhao="{$drawals.details_number}" attr-money="{$drawals.pay_money}">查看交易单号</a>
+                                                <else />
+                                                <a class="btn btn-default btn-xs disabled" type="button" id="jiaoyi-danhao" attr-danhao="{$drawals.details_number}" attr-money="{$drawals.pay_money}">暂无交易单号</a>
+                                            </if>
+
+
+                                        </if></td>
+                                    <td class="wm_table_center"><button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#mymodel" id="paymentdata_achieve" attr-id="{$drawals.serial_number}">查看详情</button>
+
+
+                                    </td>
+
+
+
+
+                                </tr>
+
+                            </volist>
+
+
+                            </tbody>
+                        </table>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="mymodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">提现详情</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <table width="100%" class="table table-striped table-bordered table-hover" >
+                                            <thead>
+                                            <tr>
+                                                <th class="wm_table_center">日&nbsp;期</th>
+                                                <th class="wm_table_center">用户ID号</th>
+                                                <th class="wm_table_center">用户名</th>
+                                                <th class="wm_table_center">渠道号</th>
+                                                <th class="wm_table_center">发展下线人数</th>
+                                                <th class="wm_table_center">渠道注册人数</th>
+                                                <th class="wm_table_center">充值订单数</th>
+                                                <th class="wm_table_center">有效订单数</th>
+                                                <th class="wm_table_center">订单成功率</th>
+                                                <th class="wm_table_center">用户充值金额</th>
+                                                <th class="wm_table_center">渠道分成金额</th>
+                                                <th class="wm_table_center">业绩说明</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody class="pay_achieve_body">
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- /.table-responsive -->
+                        <div class="pagination pagination-centered wm_table_page">{$pageRes}</div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">上传汇款回单</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-unstyled">
+                    <input id="tixian-id" name="tixian-id" type="hidden" value="">
+                    <li>
+
+                        <img style="display: none" id="upload_org_code_img4" src="" width="150" >
+                        <input id="file_upload_image4" name="fapiao-chongxin" type="hidden" multiple="true" value="">
+                        <br /><br />
+                        <input id="file_upload4"  type="file" multiple="true" >
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="upload-huidan" data-dismiss="modal">立即上传</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- /#wrapper -->
+<include file="Index/footer" />
+
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+    });
+    $('.wm_table_center #tixian-status').click(function () {
+        var serial_number = $(this).attr('attr-id');
+        var duigong = $(this).attr('attr-duigong');
+        if(duigong != 1) {
+            return dialog.msg('发票未通过审核，不可修改提现状态！');
+        }
+        layer.open({
+            type : 0,
+            title : '请选择',
+            btn : ['已提现','提现失败'],
+            icon : 7,
+            closeBtn : 2,
+            content : "&nbsp;&nbsp;&nbsp;将该条提现记录的状态设置为：",
+            scrollbar : true,
+            yes : function (index) {
+                //执行跳转
+                layer.close(index);
+                $('#tixian-id').attr('value',serial_number);
+                $('#myModal5').modal('show');
+
+            },
+            btn2 : function () {
+                var url='/index.php?m=wmbackstage&c=wmwithdrawals&a=upload_huidan'
+                var data = {
+                    'serial_number' : serial_number,
+                    'pay_status' : -1,
+
+                }
+                $.post(url,data,function (result) {
+                    if(result.status == 0) {
+                        return dialog.error(result.message);
+                    }
+                    if(result.status == 1) {
+                        return dialog.success(result.message,'');
+                    }
+                },'JSON');
+            },
+
+        });
+
+    });
+
+
+    $('.wm_table_center #tixian-status-z').click(function () {
+        var serial_number = $(this).attr('attr-id');
+        layer.open({
+            type : 0,
+            title : '请选择',
+            btn : ['已提现','提现失败'],
+            icon : 7,
+            closeBtn : 2,
+            content : "&nbsp;&nbsp;&nbsp;将该条提现记录的状态设置为：",
+            scrollbar : true,
+            yes : function (index) {
+                //执行跳转
+                //prompt层
+                layer.prompt({title: '请输入支付宝交易流水号，并确认', formType:3}, function(text, index){
+                    layer.close(index);
+                    var url='/index.php?m=wmbackstage&c=wmwithdrawals&a=upload_huidan'
+                    var data = {
+                        'serial_number' : serial_number,
+                        'pay_status' : 1,
+                        'details_number' : text,
+                        'post_status' : 2,
+                    }
+                    $.post(url,data,function (result) {
+                        if(result.status == 0) {
+                            return dialog.error(result.message);
+                        }
+                        if(result.status == 1) {
+                            return dialog.success(result.message,'');
+                        }
+                    },'JSON');
+                });
+            },
+            btn2 : function () {
+                var url='/index.php?m=wmbackstage&c=wmwithdrawals&a=upload_huidan'
+                var data = {
+                    'serial_number' : serial_number,
+                    'pay_status' : -1,
+                }
+                $.post(url,data,function (result) {
+                    if(result.status == 0) {
+                        return dialog.error(result.message);
+                    }
+                    if(result.status == 1) {
+                        return dialog.success(result.message,'');
+                    }
+                },'JSON');
+            },
+
+        });
+
+    });
+
+    $('.wm_table_center #zhifubao-xinxi').click(function () {
+
+        var column = $(this).attr('attr-column');
+        var alipay = $(this).attr('attr-alipay');
+        if(!column && !alipay) {
+            return dialog.msg('该用户尚未绑定支付宝！');
+        }
+        layer.open({
+            type: 1,
+            shade: false,
+            title: false, //不显示标题
+            content: '<p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支付宝姓名：'+column+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+            '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支付宝账号：'+alipay+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>&nbsp;', //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+        });
+    });
+
+    $('.wm_table_center #duigong-xinxi').click(function () {
+
+        var company = $(this).attr('attr-company');
+        var bank = $(this).attr('attr-bank');
+        var account = $(this).attr('attr-account');
+
+        if(!company && !bank && !account) {
+            return dialog.msg('该用户尚未绑定对公账户！');
+        }
+        layer.open({
+            type: 1,
+            shade: false,
+            title: false, //不显示标题
+            content: '<br><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单位名称：'+company+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+            '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开户银行：'+bank+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+            '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;银行账号：'+account+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+            '<br>&nbsp;', //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+        });
+    });
+
+    $('.wm_table_center #jiaoyi-danhao').click(function () {
+
+        var danhao = $(this).attr('attr-danhao');
+        var money = $(this).attr('attr-money');
+
+        layer.open({
+            type: 1,
+            shade: false,
+            title: false, //不显示标题
+            content: '<p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交易金额总计：'+money+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+            '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支付宝交易号：'+danhao+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>&nbsp;', //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+        });
+    });
+</script>
+
+</body>
+
+</html>

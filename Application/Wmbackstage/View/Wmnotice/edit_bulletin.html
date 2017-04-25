@@ -1,0 +1,86 @@
+<include file="Index/header" />
+
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <include file="Index/nav" />
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">修改公告</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- /.panel-heading -->
+                <div class="row">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-6">
+                        <form>
+                            <div class="form-group">
+                                <input type="hidden" value="{$notice.notice_id}" name="id">
+                                <label for="exampleInputEmail1">公告标题：</label>
+                                <input name="title" class="form-control" id="exampleInputEmail1" placeholder="公告标题" value="{$notice.notice_title}">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">公告详情：</label>
+                                <textarea name="detail" class="input js-editor" id="editor_singcms" rows="15"  style="width: 100%">{$notice.notice_content}</textarea>
+                            </div>
+
+                            <button type="button" class="btn btn-primary btn-block" id="updata_bulletin">修改公告</button>
+                            <a type="button" class="btn btn-default btn-block" href="/index.php?m=Wmbackstage&c=wmnotice">返回列表</a>
+                        </form>
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+
+
+
+
+    <include file="Index/footer" />
+<script>
+    // 6.2
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#editor_singcms',{
+            uploadJson : '/index.php?m=wmbackstage&c=index&a=kindupload',
+            afterBlur : function(){this.sync();}, //
+            resizeType : 1,
+            allowPreviewEmoticons : false,
+            //allowImageUpload : false,
+            items : [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+
+
+        });
+    });
+    $('#tlsdfj').click(function () {
+        alert(editor.html());
+    });
+</script>
+
+</body>
+
+</html>

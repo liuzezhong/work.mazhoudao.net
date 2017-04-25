@@ -1,0 +1,239 @@
+<include file="Index/header" />
+
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <include file="Index/nav" />
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">网盟用户信息管理</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        网盟用户信息管理
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="well">
+                            <form class="form-inline" action="/index.php" method="get">
+                                <input type="hidden" name="m" value="wmbackstage"/>
+                                <input type="hidden" name="c" value="wmuser"/>
+                                <input type="hidden" name="a" value="index"/>
+                                <div class="form-group">
+                                    <label >用户名：</label>
+                                    <input type="text" class="form-control" name="username" placeholder="" value="{$input_username}">
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>公众号：</label>
+                                    <input type="text" class="form-control" name="publicname" placeholder="" value="{$input_publicname}">
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <label>对公状态：</label>
+                                    <select class="form-control" name="account_status">
+                                        <if condition="$account_status eq 0"><option value="0" selected>请选择</option><else/><option value="0">请选择</option></if>
+                                        <if condition="$account_status eq 2"><option value="2" selected>待审核</option><else/><option value="2">待审核</option></if>
+                                        <if condition="$account_status eq 1"><option value="1" selected>已启用</option><else/><option value="1">已启用</option></if>
+                                        <if condition="$account_status eq -1"><option value="-1" selected>已驳回</option><else/><option value="-1">已驳回</option></if>
+                                    </select>
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search fa-fw"></i>&nbsp;&nbsp;查询记录</button>
+                                </div>
+
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <a href="/index.php?m=wmbackstage&c=wmuser&a=wmexp_user&username={$input_username}&publicname={$input_publicname}&introducer={$input_introducer}" class="btn btn-default"><i class="fa fa-share-square-o fa-fw"></i>&nbsp;&nbsp;导出记录</a>
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <a href="/index.php?m=Wmbackstage&c=wmuser&a=index" class="btn btn-default"><i class="fa fa-refresh fa-fw"></i>&nbsp;&nbsp;刷新列表</a>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <table width="100%" class="table table-striped table-bordered table-hover useradmin_table" >
+                            <thead>
+                            <tr>
+                                <th class="wm_table_center">用户ID</th>
+                                <th class="wm_table_center">用户名</th>
+                                <th class="wm_table_center">渠道号</th>
+                                <th class="wm_table_center">公众号</th>
+                                <th class="wm_table_center">分成比例</th>
+                                <th class="wm_table_center">上线用户ID</th>
+                                <th class="wm_table_center">支付宝</th>
+                                <th class="wm_table_center">对公账户</th>
+
+                                <th class="wm_table_center">对公状态</th>
+
+                                <th class="wm_table_center">用户状态</th>
+
+                                <th class="wm_table_center">其他信息</th>
+
+                                <th class="wm_table_center">注册时间</th>
+                                <th class="wm_table_center">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="user_admins" id="user_admin">
+                                <tr class="odd gradeX">
+                                    <td class="wm_table_center">{$user_admin.user_id}</td>
+                                    <td class="wm_table_center">{$user_admin.username}</td>
+                                    <td class="wm_table_center">{$user_admin.c_number}</td>
+                                    <td class="wm_table_center">{$user_admin.public_name}</td>
+                                    <td class="wm_table_center">{$user_admin.proportion}</td>
+                                    <td class="wm_table_center">{$user_admin.introducer_id}</td>
+                                    <td class="wm_table_center">
+                                        <if condition="$user_admin.alipay_number neq is_null()">
+                                            <button type="button" class="btn btn-default btn-xs" id="zhifubao-xinxi" attr-column="{$user_admin.column_name}" attr-alipay="{$user_admin.alipay_number}">点击查看</button>
+                                            <else />
+                                            <button type="button" class="btn btn-default btn-xs disabled">未绑定</button>
+                                        </if>
+
+                                    </td>
+                                    <td class="wm_table_center">
+                                        <if condition="$user_admin.bank_account neq is_null()">
+                                            <button type="button" class="btn btn-default btn-xs" id="duigong-xinxi" attr-company="{$user_admin.company_name}" attr-bank="{$user_admin.bank}" attr-account="{$user_admin.bank_account}" attr-business="{$user_admin.business}" attr-certificate="{$user_admin.certificate}">点击查看</button>
+                                            <else />
+                                            <button type="button" class="btn btn-default btn-xs disabled" >未绑定</button>
+                                        </if>
+
+                                    </td>
+                                    <td class="wm_table_center">
+                                        <if condition="$user_admin.bank_account eq is_null()">
+                                            <button class="btn btn-default btn-xs disabled">
+                                                    未启用</button>
+                                            <else />
+                                            <if condition="$user_admin.account_status eq 0">
+                                                    <span class="btn btn-warning btn-xs" id="duigong-status" attr-id="{$user_admin.user_id}" attr-status="{$user_admin.account_status}">
+                                                    待审核</span>
+
+                                                <elseif condition="$user_admin.account_status eq 1"/>
+                                                <span class="btn btn-success btn-xs" id="duigong-status" attr-id="{$user_admin.user_id}" attr-status="{$user_admin.account_status}">
+                                                    已启用</span>
+                                                <elseif condition="$user_admin.account_status eq -1"/>
+                                                <span class="btn btn-danger btn-xs" id="duigong-status" attr-id="{$user_admin.user_id}" attr-status="{$user_admin.account_status}">
+                                                    已驳回</span>
+                                            </if>
+                                        </if>
+                                        </td>
+                                    <td class="wm_table_center">
+
+                                        <if condition="$user_admin.user_status eq 0">
+                                                    <span class="btn btn-danger btn-xs" id="useradmin-status" attr-id="{$user_admin.user_id}" attr-status="{$user_admin.user_status}">
+                                                    {$user_admin.user_status_zh}</span>
+
+                                            <elseif condition="$user_admin.user_status eq 1"/>
+                                            <span class="btn btn-success btn-xs" id="useradmin-status" attr-id="{$user_admin.user_id}" attr-status="{$user_admin.user_status}">
+                                                    &nbsp;&nbsp;{$user_admin.user_status_zh}&nbsp;&nbsp;</span>
+                                        </if>
+
+                                    </td>
+                                    <td class="wm_table_center"><a class="btn btn-info btn-xs" href="{:U('wmbackstage/wmchannel/index')}&userid={$user_admin.user_id}">销售数据</a>&nbsp;
+                                        <a  class="btn btn-default btn-xs" href="{:U('wmbackstage/wmuser/underline')}&introducer={$user_admin.user_id}&username={$user_admin.username}">下线信息</a></td>
+
+                                    <td class="wm_table_center">{$user_admin.register_time|date='Y-m-d',###}</td>
+                                    <td class="wm_table_center">
+                                        <span id="updata_list" attr-id="{$user_admin.user_id}"><i class="fa fa-edit fa-fw"></i>&nbsp;</span>
+                                        <span id="delete_list" attr-id="{$user_admin.user_id}" attr-message="删除 {$user_admin.username}"><i class="fa fa-trash-o fa-fw"></i></span>
+                                    </td>
+
+                                </tr>
+
+
+                            </volist>
+
+                            <!-- Button trigger modal -->
+
+
+                            <!-- Modal -->
+
+
+                            </tbody>
+
+                        </table>
+                        <!-- /.table-responsive -->
+                        <div class="pagination pagination-centered wm_table_page" >{$pageRes}</div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+
+    <!-- /#wrapper -->
+    <include file="Index/footer" />
+
+    <script>
+        var SCOPE = {
+            'edit_url' : '/index.php?m=wmbackstage&c=wmuser&a=edit_user',
+            'delete_list_url' : '/index.php?m=wmbackstage&c=wmuser&a=delete_user',
+
+        };
+
+        $('.wm_table_center #zhifubao-xinxi').click(function () {
+
+            var column = $(this).attr('attr-column');
+            var alipay = $(this).attr('attr-alipay');
+            if(!column && !alipay) {
+                return dialog.msg('该用户尚未绑定支付宝！');
+            }
+            layer.open({
+                type: 1,
+                shade: false,
+                title: false, //不显示标题
+                content: '<p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支付宝姓名：'+column+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+                '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;支付宝账号：'+alipay+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>&nbsp;', //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            });
+        });
+
+        $('.wm_table_center #duigong-xinxi').click(function () {
+
+            var company = $(this).attr('attr-company');
+            var bank = $(this).attr('attr-bank');
+            var account = $(this).attr('attr-account');
+            var business = $(this).attr('attr-business');
+            var certificate = $(this).attr('attr-certificate');
+
+            if(!company && !bank && !account && !business && !certificate) {
+                return dialog.msg('该用户尚未绑定对公账户！');
+            }
+            layer.open({
+                type: 1,
+                shade: false,
+                title: false, //不显示标题
+                content: '<br><p>&nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单位名称：'+company+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+                '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开户银行：'+bank+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+                '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;银行账号：'+account+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+                '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;营业执照：<a href="'+business+'" type="button" class="btn btn-default btn-xs" target="_blank">点击查看营业执照</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+                '<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开户证明：<a href="'+certificate+'" type="button" class="btn btn-default btn-xs" target="_blank">点击查看开户许可证</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>' +
+                '<br>&nbsp;', //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            });
+        });
+    </script>
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+
+
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<include file="Index/header" />
+
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <include file="Index/nav" />
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">网盟每月下线业绩录入</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        网盟每月下线业绩录入
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="well">
+                            <form class="form-inline" action="/index.php" method="get">
+                                <input type="hidden" name="m" value="wmbackstage"/>
+                                <input type="hidden" name="c" value="wmchannel"/>
+                                <input type="hidden" name="a" value="entry_underlinedata"/>
+                                <div class="form-group">
+                                    <label>请选择日期：</label>
+                                    <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm" data-link-field="dtp_input2" data-link-format="yyyy-mm">
+                                        <input name="q_date" class="form-control" value="{$input_date}" type="text" >
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    </div>
+                                    <input type="hidden" id="dtp_input2" value="" />
+                                    <!-- <input type="text" name="q_date" class="form-control" value="{$input_date}">-->
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search fa-fw"></i>&nbsp;&nbsp;查询当月下线业绩记录</button>
+                                </div>
+                                &nbsp;&nbsp;
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-default" id="save_paymentdata"><i class="fa fa-upload fa-fw"></i>&nbsp;&nbsp;保存当月下线业绩记录</button>
+                                </div>
+                            </form>
+                        </div>
+                        <table width="100%" class="table table-striped table-bordered table-hover" >
+                            <thead>
+                            <tr>
+                                <th class="wm_table_center">日期</th>
+                                <th class="wm_table_center">用户ID号</th>
+                                <th class="wm_table_center">用户名</th>
+                                <th class="wm_table_center">渠道号</th>
+                                <th class="wm_table_center">公众号</th>
+                                <th class="wm_table_center">可收益下线人数</th>
+                                <th class="wm_table_center">下线总收益</th>
+                                <th class="wm_table_center">分成金额</th>
+                                <th class="wm_table_center">业绩说明</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <volist name="achievements" id="achievement">
+                                <tr class="odd gradeX">
+                                    <form class="form add_pay_form" id="add_pay_form">
+                                        <input type="hidden" value="2" name="ach_id" />
+                                        <td class="wm_table_center">{$input_date}</td>
+                                        <input type="hidden" value="{$input_date}" name="re_time" />
+                                        <td class="wm_table_center">{$achievement.user_id}</td>
+                                        <input type="hidden" value="{$achievement.user_id}" name="user_id" />
+                                        <td class="wm_table_center">{$achievement.username}</td>
+                                        <!--<input type="hidden" value="{$achievement.username}" name="username" />-->
+                                        <td class="wm_table_center">{$achievement.c_number}</td>
+                                        <!--<input type="hidden" value="{$achievement.c_number}" name="c_number" />-->
+                                        <td class="wm_table_center">{$achievement.public_name}</td>
+                                        <!--<input type="hidden" value="{$achievement.public_name}" name="public_name">-->
+                                        <td class="wm_table_center"><input type="text"  style="width: 80px;" value="{$achievement.underline_number}" name="underline_number"/></td>
+                                        <td class="wm_table_center"><input type="text"  style="width: 80px;" value="{$achievement.underline_money}" name="underline_money"/></td>
+
+                                        <td class="wm_table_center"><input type="text"  style="width: 80px;" value="{$achievement.divided_amount}" name="divided_amount"/></td>
+
+                                        <td class="wm_table_center"><input type="text"  style="width: 80px;" value="{$achievement.acc_explain}" name="acc_explain"/></td>
+
+                                    </form></tr>
+
+                            </volist>
+                            </tbody>
+                        </table>
+                        <!-- /.table-responsive -->
+                        <div class="pagination pagination-centered wm_table_page">{$pageRes}</div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+
+    <include file="Index/footer" />
+
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script type="text/javascript">
+        $('.form_date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            autoclose: 1,
+            format: "yyyy-mm",
+            startView: 3,
+            minView: 3,
+            forceParse: 0,
+        });
+    </script>
+
+</body>
+
+</html>
